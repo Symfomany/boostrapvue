@@ -3,11 +3,11 @@
     <v-toolbar flat>
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <img src="https://randomuser.me/api/portraits/men/85.jpg">
+          <img src="https://wildcodeschool.fr/wp-content/uploads/2017/01/Julien-Boyer-600x600.jpg">
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile>
-            <v-list-tile-title class="title">Application</v-list-tile-title>
+            <v-list-tile-title class="title">Julien</v-list-tile-title>
           </v-list-tile>
         </v-list-tile-content>
       </v-list-tile>

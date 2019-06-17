@@ -8,49 +8,145 @@
           </div>
         </v-card-title>
 
-        <v-card-content>
-          <v-form v-model="valid">
-            <v-container>
-              <v-layout>
-                <v-flex xs12>
-                  <v-text-field
-                    v-model="search"
-                    :rules="searchRules"
-                    label="Rechercher un établissement"
-                    required
-                  ></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-form>
+        <v-form v-model="valid">
+          <v-container>
+            <v-layout>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="search"
+                  :rules="searchRules"
+                  label="Rechercher un établissement"
+                  required
+                ></v-text-field>
 
-          <h3 class="headline mb-0">Résultats de la recherche</h3>
-          <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-            <template v-slot:items="props">
-              <td>{{ props.item.name }}</td>
-              <td class="text-xs-right">{{ props.item.calories }}</td>
-              <td class="text-xs-right">{{ props.item.fat }}</td>
-              <td class="text-xs-right">{{ props.item.carbs }}</td>
-              <td class="text-xs-right">{{ props.item.protein }}</td>
-              <td class="text-xs-right">{{ props.item.iron }}</td>
-            </template>
-          </v-data-table>
-        </v-card-content>
+                <v-btn color="blue-grey" class="white--text" @click="changeAdvanced()">
+                  Recherche avancée
+                  <v-icon right dark>build</v-icon>
+                </v-btn>
+                <transition name="fade">
+                  <v-container transition="fade-transition" fluid v-if="advanced === true">
+                    <v-layout wrap>
+                      <v-flex xs12>
+                        <v-combobox v-model="select" :items="items" label="Type de recherche"></v-combobox>
+                        <v-combobox v-model="select" :items="items" label="Département"></v-combobox>
+                        <v-combobox v-model="select" :items="items" label="Conseils locaux"></v-combobox>
+                        <v-checkbox v-model="checkbox" :label="`Conseil principal`"></v-checkbox>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </transition>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-form>
+        <v-container>
+          <v-layout>
+            <v-flex xs12>
+              <h3 class="headline mb-0">Résultats de la recherche</h3>
+              <v-data-table
+                select-all
+                :headers="headers"
+                item-key="name"
+                :items="desserts"
+                :pagination.sync="pagination"
+                class="elevation-1"
+              >
+                <template v-slot:headers="props">
+                  <tr>
+                    <th>
+                      <v-checkbox
+                        :input-value="props.all"
+                        :indeterminate="props.indeterminate"
+                        primary
+                        hide-details
+                        @click.stop="toggleAll()"
+                      ></v-checkbox>
+                    </th>
+                    <th
+                      v-for="header in props.headers"
+                      :key="header.id"
+                      :class="['column sortable', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+                      @click="changeSort(header.value)"
+                    >
+                      <v-icon small>arrow_upward</v-icon>
+                      {{ header.text }}
+                    </th>
+                  </tr>
+                </template>
+
+                <template v-slot:items="props">
+                  <tr :active="props.selected" @click="props.selected = !props.selected">
+                    <td>
+                      <v-checkbox :input-value="props.selected" primary hide-details></v-checkbox>
+                    </td>
+
+                    <td>
+                      <router-link :to="`view/${props.item.id}`">{{ props.item.name }}</router-link>
+                    </td>
+                    <td class="text-xs-right">{{ props.item.id }}</td>
+                    <td class="text-xs-right">{{ props.item.calories }}</td>
+                    <td class="text-xs-right">{{ props.item.iron }}</td>
+                    <td>X</td>
+                    <td>X</td>
+                    <td>X</td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  overflow-y: hidden;
+  max-height: 500px; /* approximate max height */
+
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.04, 1.07, 0.57, 0.97);
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  max-height: 0;
+}
+</style>
 
 
 <script>
 export default {
   name: "Search",
   components: {},
+  methods: {
+    changeAdvanced() {
+      this.advanced = !this.advanced;
+    },
+    toggleAll() {
+      if (this.selected.length) this.selected = [];
+      else this.selected = this.desserts.slice();
+    },
+    changeSort(column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending;
+      } else {
+        this.pagination.sortBy = column;
+        this.pagination.descending = false;
+      }
+    }
+  },
   data() {
     return {
+      advanced: false,
       valid: true,
       search: "",
+      pagination: {
+        sortBy: "name"
+      },
+      selected: [],
+      items: ["Programming", "Design", "Vue", "Vuetify"],
       searchRules: [
         v => !!v || "Search is required",
         v => v.length <= 25 || "Search must be less than 25 characters"
@@ -58,97 +154,55 @@ export default {
 
       headers: [
         {
-          text: "Dessert (100g serving)",
-          align: "left",
-          sortable: false,
+          id: 1,
+          text: "Nom",
           value: "name"
         },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Iron (%)", value: "iron" }
+        { id: 2, text: "Id", value: "id" },
+        { id: 3, text: "CL Principal", value: "CL Principal" },
+        {
+          id: 4,
+          text: "Parent Principal - Nom",
+          value: "Parent Principal - Nom"
+        },
+        {
+          id: 5,
+          text: "Parent Principal - Prénom",
+          value: "Parent Principal - Prénom"
+        },
+        { id: 8, text: "Abonné", value: "Abonné" },
+        { id: 9, text: "Adhérent", value: "Adhérent" }
       ],
       desserts: [
         {
+          id: 1,
           name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
           protein: 4.0,
           iron: "1%"
         },
         {
+          id: 2,
           name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
           protein: 4.3,
           iron: "1%"
         },
         {
+          id: 3,
           name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
           protein: 6.0,
           iron: "7%"
         },
         {
+          id: 4,
           name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
           protein: 4.3,
           iron: "8%"
         },
         {
+          id: 5,
           name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
           protein: 3.9,
           iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: "6%"
         }
       ]
     };

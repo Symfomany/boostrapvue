@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <v-toolbar app>
-      <v-toolbar-title class="headline">
-        <!-- <span>Vuetify</span> -->
-        <v-img :src="require('./assets/jetpulp.png')" class="my-4" contain height="150"></v-img>
-      </v-toolbar-title>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title>Norma</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn class="mr-2" color="error">Deconnexion</v-btn>
     </v-toolbar>
 
     <v-content>
+      <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+
       <v-layout row wrap>
         <v-flex xs2>
           <Menu></Menu>
@@ -27,19 +27,38 @@
   </v-app>
 </template>
 
+
+<style>
+</style>
+
+
 <script>
-import Main from "./components/Main";
 import Menu from "./components/Menu";
 
 export default {
   name: "App",
   components: {
-    Main,
     Menu
   },
   data() {
     return {
-      //
+      items: [
+        {
+          text: "Dashboard",
+          disabled: false,
+          href: "/"
+        },
+        {
+          text: "Location",
+          disabled: false,
+          href: "/location"
+        },
+        {
+          text: "Rechercher des location",
+          disabled: true,
+          href: "/location/search"
+        }
+      ]
     };
   }
 };

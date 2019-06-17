@@ -32,6 +32,10 @@ export default new Router({
           component: () => import("./views/location/SearchLocation.vue")
         },
         {
+          path: "view/:id",
+          component: () => import("./views/location/ViewLocation.vue")
+        },
+        {
           path: "create",
           component: () => import("./views/location/CreateLocation.vue")
         }
