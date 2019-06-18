@@ -8,6 +8,15 @@
               <h3 class="headline mb-0">Welcome to Backend</h3>
               <p>Phrase: {{ phrase }} (soit {{ longeur }} avec premiere lettre "{{ firstLetter }}")</p>
               <v-text-field @keyup="changer" :value="phrase" label="Votre phrase" required></v-text-field>
+              <v-btn color="error" @click="clear">Nettoyer le champ</v-btn>
+              <v-btn color="warning" @click="maj">Majuscule</v-btn>
+              <v-btn color="infos" @click="min">Minuscule</v-btn>
+              <v-combobox
+                @change="changerPays"
+                v-model="pays"
+                :items="itemsPays"
+                label="Selectionner un pays"
+              ></v-combobox>
             </div>
           </v-card-title>
         </v-card>
@@ -17,25 +26,44 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import types from "../actions/types";
 
 export default {
   methods: {
     ...mapActions([
-      "modify" // map `this.increment()` to `this.$store.dispatch('increment')`
-    ]),
-    ...mapMutations([
-      "modify" // map `this.increment()` to `this.$store.commit('increment')`
+      types.SENTENCE_MODIFY,
+      types.SENTENCE_CLEAR,
+      types.SENTENCE_MAJUSCULE,
+      types.SENTENCE_MINUSCULE,
+      types.SENTENCE_MANGER
     ]),
     changer(elt) {
       this.modify({ newSentence: elt.target.value });
+    },
+    changerPays() {
+      if (this.pays == "Italie") {
+        this.manger();
+      }
+    },
+    maj() {
+      this.majuscule();
+    },
+    min() {
+      this.minuscule();
+    },
+    clear() {
+      this.cleared();
     }
   },
+
   computed: {
     ...mapState(["phrase"]),
     ...mapGetters(["longeur", "firstLetter"])
   },
   data: () => ({
+    itemsPays: ["France", "Espagne", "Italie", "Angleterre"],
+    pays: "France",
     card_text:
       "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat.",
     ecosystem: [
