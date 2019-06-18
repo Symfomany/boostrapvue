@@ -24,6 +24,16 @@
                 label="Voulez vous connaître la spécialité Lyonnaise?"
                 required
               ></v-checkbox>
+
+              <v-radio-group v-model="radioGroup">
+                <v-radio
+                  @change="changerNum"
+                  v-for="n in 3"
+                  :key="n"
+                  :label="`Radio ${n}`"
+                  :value="n"
+                ></v-radio>
+              </v-radio-group>
             </div>
           </v-card-title>
         </v-card>
@@ -46,6 +56,13 @@ export default {
       types.SENTENCE_MANGER,
       types.SENTENCE_SPECIALITE
     ]),
+    changerNum() {
+      if (this.radioGroup == 2) {
+        this.majuscule();
+      } else if (this.radioGroup == 3) {
+        this.minuscule();
+      }
+    },
     changerSpec() {
       if (this.special == true) {
         this.specialite();
@@ -78,6 +95,7 @@ export default {
   },
   data: () => ({
     special: false,
+    radioGroup: 1,
     itemsPays: ["France", "Espagne", "Italie", "Angleterre"],
     pays: "France",
     card_text:
