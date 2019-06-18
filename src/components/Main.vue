@@ -265,14 +265,14 @@ export default {
       }
     ];
 
-    var options = {
+    const options = {
       shouldSort: true,
-      threshold: 0.2,
+      threshold: 0.2, // 0: taux exact d'erreur 1: Approximative
       location: 0,
-      distance: 100,
+      distance: 100, // distance of leverkusen
       includeScore: true,
-      maxPatternLength: 32,
-      minMatchCharLength: 1,
+      maxPatternLength: 15,
+      minMatchCharLength: 3,
       keys: [
         "title",
         "author.note",
@@ -281,8 +281,10 @@ export default {
         "author.lastName"
       ]
     };
-    this.$search("0674585649", datas, options).then(results =>
-      console.log(results)
+    this.$search("0674585649", datas, options).then(
+      results =>
+        // console.log(results)
+        results
     );
   },
   computed: {

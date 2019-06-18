@@ -1,10 +1,11 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import Login from "./views/Login.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -12,6 +13,11 @@ export default new Router({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
     },
     {
       path: "/about",
@@ -68,3 +74,15 @@ export default new Router({
     }
   ]
 });
+
+router.afterEach(to => {
+  // ...
+  if (to.name != "login") {
+    const connected = localStorage.getItem("connected");
+    if (connected !== "true") {
+      return router.push("/login");
+    }
+  }
+});
+
+export default router;

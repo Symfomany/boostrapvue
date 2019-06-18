@@ -1,17 +1,17 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar app v-if="connected">
       <v-toolbar-side-icon></v-toolbar-side-icon>
       <v-toolbar-title>Norma</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn class="mr-2" color="error">Deconnexion</v-btn>
+      <v-btn v-if="connected" class="mr-2" color="error" @click="logout">Deconnexion</v-btn>
     </v-toolbar>
 
     <v-content>
-      <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
+      <v-breadcrumbs v-if="connected" :items="items" divider=">"></v-breadcrumbs>
 
       <v-layout row wrap>
-        <v-flex xs2>
+        <v-flex xs2 v-if="connected">
           <Menu></Menu>
         </v-flex>
         <v-flex xs10>
@@ -40,8 +40,15 @@ export default {
   components: {
     Menu
   },
+  methods: {
+    logout() {
+      localStorage.removeItem("connected");
+      window.location.href = "/";
+    }
+  },
   data() {
     return {
+      connected: localStorage.getItem("connected"),
       items: [
         {
           text: "Dashboard",
