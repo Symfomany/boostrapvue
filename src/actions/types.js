@@ -3,7 +3,8 @@ const types = {
   SENTENCE_CLEAR: "cleared",
   SENTENCE_MAJUSCULE: "majuscule",
   SENTENCE_MINUSCULE: "minuscule",
-  SENTENCE_MANGER: "manger"
+  SENTENCE_MANGER: "manger",
+  SENTENCE_SPECIALITE: "specialite"
 };
 
 export default types;

@@ -15,6 +15,9 @@ const mutations = {
   },
   [types.SENTENCE_MANGER](state) {
     state.phrase = "Mozzarella Buffala Campone";
+  },
+  [types.SENTENCE_SPECIALITE](state) {
+    state.phrase = "Bouchon Lyonnais 😊";
   }
 };
 

@@ -15,6 +15,9 @@ const actions = {
   },
   manger({ commit }) {
     commit(types.SENTENCE_MANGER);
+  },
+  specialite({ commit }) {
+    commit(types.SENTENCE_SPECIALITE);
   }
 };
 

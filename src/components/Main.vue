@@ -17,6 +17,13 @@
                 :items="itemsPays"
                 label="Selectionner un pays"
               ></v-combobox>
+              <v-checkbox
+                @change="changerSpec"
+                v-model="special"
+                :rules="[v => !!v || 'You must agree to continue!']"
+                label="Voulez vous connaître la spécialité Lyonnaise?"
+                required
+              ></v-checkbox>
             </div>
           </v-card-title>
         </v-card>
@@ -36,8 +43,16 @@ export default {
       types.SENTENCE_CLEAR,
       types.SENTENCE_MAJUSCULE,
       types.SENTENCE_MINUSCULE,
-      types.SENTENCE_MANGER
+      types.SENTENCE_MANGER,
+      types.SENTENCE_SPECIALITE
     ]),
+    changerSpec() {
+      if (this.special == true) {
+        this.specialite();
+      } else {
+        this.cleared();
+      }
+    },
     changer(elt) {
       this.modify({ newSentence: elt.target.value });
     },
@@ -62,6 +77,7 @@ export default {
     ...mapGetters(["longeur", "firstLetter"])
   },
   data: () => ({
+    special: false,
     itemsPays: ["France", "Espagne", "Italie", "Angleterre"],
     pays: "France",
     card_text:
