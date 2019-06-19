@@ -1,0 +1,61 @@
+<template>
+  <v-layout>
+    <v-flex xs12>
+      <v-card>
+        <v-form ref="form" lazy-validation v-model="valid">
+          <v-container>
+            <v-layout>
+              <v-flex xs12 md4>
+                <v-text-field
+                  v-model="firstname"
+                  :rules="nameRules"
+                  :counter="10"
+                  label="First name"
+                  required
+                ></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 md4>
+                <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+              </v-flex>
+
+              <v-flex xs12 md4>
+                <v-btn @click="validate" :disabled="!valid" color="success">Valider</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-form>
+      </v-card>
+    </v-flex>
+  </v-layout>
+</template>
+
+
+<script>
+export default {
+  name: "Create",
+  data: () => ({
+    valid: false,
+    firstname: "",
+    email: "",
+    nameRules: [
+      v => !!v || "Name is required",
+      v => v.length <= 10 || "Name must be less than 10 characters"
+    ],
+    emailRules: [
+      v => !!v || "E-mail is required",
+      v => /.+@.+/.test(v) || "E-mail must be valid"
+    ]
+  }),
+
+  methods: {
+    validate() {
+      if (this.$refs.form.validate()) {
+        console.log("c'est ok");
+        this.$refs.form.reset();
+        this.$refs.form.resetValidation();
+      }
+    }
+  }
+};
+</script>

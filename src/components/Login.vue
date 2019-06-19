@@ -51,7 +51,7 @@ export default {
   methods: {
     validate() {
       if (this.$refs.form.validate()) {
-        if (this.email == "admin@yahoo.fr" && this.password == "test") {
+        if (this.email == "admin@yahoo.fr" && this.password == "admin") {
           localStorage.setItem("connected", true);
           window.location.href = "/";
         } else {

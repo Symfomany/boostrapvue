@@ -1,0 +1,16 @@
+src:
+  actions: (all actions available on components VueX)
+  assets: (images & sylus)
+  components: (all scallable presentations components)
+    - SearchForm
+    - CreateForm
+  containers: (called by views and call components presentations)
+  getters: (all getters of VueX computed properties)
+  mutations: (all mutations of VueX)
+  plugins: (vuetify configuration and config plugins) + AXIOS get/post with configuration of URL constant
+  routes (toutes les routes du projets: les routes sont soient des vues static, soit des composants directs)
+  state: (all initialised state of project)
+  views: (Vues globales / Pages appelant des composants d'affichage)
+    - location (dossier de vues de l'établissement globales et régionales)
+    - parents
+    - parametrage

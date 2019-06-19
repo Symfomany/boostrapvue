@@ -1,0 +1,46 @@
+{
+  "conseils": [
+    {
+      "code": "0152765009",
+      "nom": "Coll Blaise d'Auriol",
+      "secteur": "F",
+      "degres": "Collège",
+      "status": "Association",
+      "nbfoyer": 1443,
+      "adherents": 803,
+      "contact": {
+        "fix": "0455667788",
+        "portable": "0674585648",
+        "email": "j.boyer69003@gmail.com"
+      },
+      "legale": {
+        "address": "308 Rue Paul Bert",
+        "code": "69003",
+        "ville": "Lyon"
+      },
+      "postale": {
+        "address": "308 Rue Paul Bert",
+        "code": "69003",
+        "ville": "Lyon"
+      },
+      "principal": {
+        "nom": "Collège Marcel Aymé",
+        "address": "Cheminde la Croix",
+        "commune": "02660 Dagneux"
+      },
+      "responsables": [{}],
+      "commentaire": [
+        {
+          "content": "blabla..."
+        }
+      ]
+    }
+  ],
+  "parents": [
+    {
+      "id": 1,
+      "email": "julien@free.fr",
+      "firstname": "Julien"
+    }
+  ]
+}
