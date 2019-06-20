@@ -119,10 +119,8 @@
 }
 </style>
 
-<script>
-import axios from "../../plugins/axios";
-import config from "../../config";
 
+<script>
 export default {
   name: "Search",
   components: {},
@@ -144,10 +142,12 @@ export default {
     }
   },
   created() {
-    axios
-      .get(`/conseils`)
+    fetch("http://localhost:3000/conseils")
       .then(response => {
-        console.log(response);
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
       })
       .catch(err => {
         console.log(err);

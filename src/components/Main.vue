@@ -292,6 +292,7 @@ export default {
     ...mapGetters(["longeur", "firstLetter"])
   },
   data: () => ({
+    e1: 0,
     special: false,
     radioGroup: 1,
     itemsPays: ["France", "Espagne", "Italie", "Angleterre"],

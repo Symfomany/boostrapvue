@@ -8,13 +8,20 @@
     </v-toolbar>
 
     <v-content>
-      <v-breadcrumbs v-if="connected" :items="items" divider=">"></v-breadcrumbs>
-
       <v-layout row wrap>
         <v-flex xs2 v-if="connected">
           <Menu></Menu>
         </v-flex>
-        <v-flex xs10>
+        <v-flex :xs12="connected ? false : true" xs10>
+          <v-container grid-list-xl text-xs-center>
+            <v-layout row wrap>
+              <v-breadcrumbs v-if="connected" :items="items">
+                <template v-slot:divider>
+                  <v-icon>forward</v-icon>
+                </template>
+              </v-breadcrumbs>
+            </v-layout>
+          </v-container>
           <router-view></router-view>
         </v-flex>
       </v-layout>

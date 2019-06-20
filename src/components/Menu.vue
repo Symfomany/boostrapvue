@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer permanent>
-    <v-toolbar flat>
+  <v-navigation-drawer>
+    <v-toolbar dark>
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <img src="https://wildcodeschool.fr/wp-content/uploads/2017/01/Julien-Boyer-600x600.jpg">

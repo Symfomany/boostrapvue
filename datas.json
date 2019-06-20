@@ -34,6 +34,76 @@
           "content": "blabla..."
         }
       ]
+    },
+    {
+      "code": "0252365009",
+      "nom": "Lycée Ambroise",
+      "secteur": "F",
+      "degres": "Lycée",
+      "status": "Asso",
+      "nbfoyer": 1200,
+      "adherents": 500,
+      "contact": {
+        "fix": "0253667788",
+        "portable": "0174585648",
+        "email": "julien@free.fr"
+      },
+      "legale": {
+        "address": "23 Rue Pola Messi",
+        "code": "69001",
+        "ville": "Lyon"
+      },
+      "postale": {
+        "address": "120 Avenue Général leclerc",
+        "code": "69005",
+        "ville": "Lyon"
+      },
+      "principal": {
+        "nom": "Collège Antoine Clox",
+        "address": "rue de la Rivoire",
+        "commune": "38080 St Marcel Bel Accueil"
+      },
+      "responsables": [{}],
+      "commentaire": [
+        {
+          "content": "coucou !"
+        }
+      ]
+    },
+    {
+      "code": "0122355109",
+      "nom": "Lycée Phillibert Delorme",
+      "secteur": "F",
+      "degres": "Lycée",
+      "status": "Etablissement",
+      "nbfoyer": 1000,
+      "adherents": 600,
+      "contact": {
+        "fix": "0123667788",
+        "portable": "0671285678",
+        "email": "florent@yahoo.fr"
+      },
+      "legale": {
+        "address": "13 Rue Jean Sarthe",
+        "code": "69003",
+        "ville": "Lyon"
+      },
+      "postale": {
+        "address": "33 Avenue Général leclerc",
+        "code": "69001",
+        "ville": "Lyon"
+      },
+      "principal": {
+        "nom": "Collège ",
+        "address": "11 rue de la Rivoire",
+        "commune": "38080 L'isle d'Abeau"
+      },
+      "responsables": [{}],
+      "commentaire": [
+        {
+          "content": "Salut !"
+        }
+      ]
     }
   ],
   "parents": [
