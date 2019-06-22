@@ -4,6 +4,8 @@
  */
 const express = require("express");
 const mariadb = require("mariadb");
+const cors = require("cors");
+
 const pool = mariadb.createPool({
   host: "localhost",
   user: "root",
@@ -13,12 +15,15 @@ const pool = mariadb.createPool({
 });
 const app = express();
 
-app.get("/", async (req, res) => {
+app.use(cors());
+
+app.get("/etablissements", async (req, res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    const rowss = await conn.query("SELECT COUNT(code) as nb FROM foyer");
-    console.log(rowss);
+    const rowss = await conn.query(`
+      SELECT etablissement_scolaire_id,code, nom FROM etablissement_scolaire 
+    `);
     res.json(rowss);
   } catch (err) {
     throw err;

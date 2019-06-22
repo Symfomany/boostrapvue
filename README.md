@@ -1,5 +1,9 @@
 # App Test
 
+# Use VSCode
+
+[https://vuex.vuejs.org/vuex.png](https://vuex.vuejs.org/vuex.png)
+
 # Architecture
 
 See architecture.yml
