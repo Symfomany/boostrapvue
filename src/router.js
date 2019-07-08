@@ -2,6 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./containers/Home.vue";
 import Login from "./containers/Login.vue";
+import ContactContainer from "./containers/ContactContainer.vue";
+import ParentContainer from "./containers/ParentContainer.vue";
 
 Vue.use(Router);
 
@@ -13,6 +15,16 @@ const router = new Router({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/informations-contact",
+      name: "contacts",
+      component: ContactContainer
+    },
+    {
+      path: "/creation-parent",
+      name: "parents",
+      component: ParentContainer
     },
     {
       path: "/login",

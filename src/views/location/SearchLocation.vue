@@ -25,10 +25,14 @@
                 <v-container transition="fade-transition" fluid v-if="advanced === true">
                   <v-layout wrap>
                     <v-flex xs12>
-                      <v-combobox v-model="select" :items="items" label="Type de recherche"></v-combobox>
-                      <v-combobox v-model="select" :items="items" label="Département"></v-combobox>
-                      <v-combobox v-model="select" :items="items" label="Conseils locaux"></v-combobox>
-                      <v-checkbox v-model="checkbox" :label="`Conseil principal`"></v-checkbox>
+                      <v-combobox v-model="type" :items="types" label="Type de recherche"></v-combobox>
+                      <v-combobox
+                        @change="changedeps"
+                        v-model="dep"
+                        :items="deps"
+                        label="Département"
+                      ></v-combobox>
+                      <v-combobox v-model="etab" :items="etabs" label="Etablissement scolaire"></v-combobox>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -98,18 +102,41 @@
             </tr>
           </template>
       </v-data-table>-->
+      <v-progress-linear v-if="loading == true" :indeterminate="true"></v-progress-linear>
+      <v-progress-linear
+        color="secondary"
+        v-if="loading == false && etablissementsSearch.length == 0 && search.length"
+        :indeterminate="true"
+      ></v-progress-linear>
 
       <RecycleScroller
-        class="scroller"
-        :items="search.length > 2 ? etablissementsSearch : etablissements"
-        :item-size="30"
-        key-field="etablissement_scolaire_id"
         container-tag="table"
         content-tag="tbody"
+        v-if="etablissements.length > 0 || etablissementsSearch.length > 0"
+        class="scroller"
+        :items="search.length > 2 ? etablissementsSearch : etablissements"
+        :item-size="90"
+        key-field="etablissement_scolaire_id"
       >
+        <template #before>
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Adresse</th>
+              <th>Tel</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+        </template>
+
         <template slot-scope="props">
-          <tr :key="props.item.etablissement_scolaire_id">
-            <td>{{props.item.nom}}</td>
+          <tr class="user" :key="props.item.etablissement_scolaire_id">
+            <router-link :to="`view/${props.item.etablissement_scolaire_id}`">
+              <td>{{props.item.nom}}</td>
+            </router-link>
+            <td>{{props.item.ligne1}}</td>
+            <td>{{props.item.telephone_fixe}}</td>
+            <td>{{props.item.email}}</td>
           </tr>
         </template>
       </RecycleScroller>
@@ -128,11 +155,23 @@
 }
 
 .user {
-  height: 32%;
-  width: 100%;
-  display: block;
-  margin: 20px;
+  height: 90%;
   font-size: 14px;
+}
+.scroller td,
+.scroller th {
+  padding: 10px;
+}
+.scroller thead {
+  background: #eee;
+}
+.scroller th {
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.scroller tr {
+  border: 1px solid #eee;
 }
 
 .fade-enter-active,
@@ -160,17 +199,26 @@ import { setTimeout } from "timers";
 
 const options = {
   shouldSort: true,
-  threshold: 0.6,
+  threshold: 0.1,
   location: 0,
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: ["nom"]
+  keys: ["nom", "code", "ligne1", "email", "telephone_mobile"]
 };
 export default {
   name: "Search",
   components: {},
   methods: {
+    changedeps() {
+      xhr
+        .get(`/etablissementsbydep/${this.dep}`)
+        .then(response => {
+          this.etabs = response.data;
+          this.etab = "";
+        })
+        .catch(err => {});
+    },
     debounceInput: debounce((e, component) => {
       if (component.search.length > 2) {
         component.etablissementsSearch = component.fuse.search(
@@ -196,10 +244,21 @@ export default {
     // }
   },
   computed: {
-    // etabs() {
-    //   const fuse = new Fuse(this.etablissements, options);
-    //   return fuse.search(this.search);
-    // }
+    deps() {
+      const tab = ["Tous"];
+      for (let i = 1; i <= 103; i++) {
+        if (i < 10) {
+          i = "0" + i;
+        }
+        tab.push(i);
+      }
+
+      tab.push("971");
+      tab.push("972");
+      tab.push("973");
+      tab.push("974");
+      return tab;
+    }
   },
   created() {
     const searching = this.$search;
@@ -231,7 +290,17 @@ export default {
         rowsPerPage: 100
       },
       // selected: [],
-      items: ["Programming", "Design", "Vue", "Vuetify"],
+      types: [
+        "Tous",
+        "Code",
+        "Nom",
+        "Commune (adresse légale)",
+        "Commune (adresse postale)"
+      ],
+      type: "",
+      dep: "",
+      etabs: [],
+      etab: "",
       searchRules: [
         v => !!v || "Search is required",
         v => v.length <= 25 || "Search must be less than 25 characters"

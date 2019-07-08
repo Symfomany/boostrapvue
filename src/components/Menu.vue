@@ -38,6 +38,16 @@ export default {
       items: [
         { title: "Home", icon: "dashboard", link: "/" },
         {
+          title: "Informations de Contact",
+          icon: "email",
+          link: "/informations-contact"
+        },
+        {
+          title: "Création de Parent",
+          icon: "pregnant_woman",
+          link: "/creation-parent"
+        },
+        {
           title: "Département/Conseils locaux",
           icon: "accessibility_new",
           link: "/location"
