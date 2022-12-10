@@ -14,7 +14,7 @@
     "cors": "^2.8.5",
     "debounce": "^1.2.0",
     "es6-promise": "^4.2.8",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fuse.js": "^3.4.5",
     "lodash": "^4.17.11",
     "mariadb": "^2.0.5",
